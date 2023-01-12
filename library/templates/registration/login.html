@@ -1,0 +1,34 @@
+
+<!-- Check for login detail errors -->
+
+{% if form.errors %}
+    <p>Your username or password was incorrect. Try again.</p>
+{% endif %}
+
+<!-- User is logged in but doesn't have permission to a page, auth system will "next" them -->
+{% if next %}
+    {% if user.is_authenticated %}
+        <p>You don't have permission for this page</p>
+        
+        <!-- User isn't logged in -->
+    {% else %}
+        <p>Please login to see this page</p>
+    {% endif %}
+{% endif %}
+
+<!--Login form -->
+<form method ="POST" action="{% url 'login' %}">
+{% csrf_token %}
+{{form.username.label_tag}}
+{{form.username}}
+
+{{form.password.label_tag}}
+{{form.password}}
+<input type="submit" value="login">
+<!-- Does the user have permission to see a page or will they get 'nexted': -->
+<!-- And inform django that the user was nexted to get to this login page.: -->
+<input type="hidden" name="next" value="{{next}}">
+
+<!-- change default login page in settings.py with LOGIN_REDIRECT_URL -->
+
+</form>
