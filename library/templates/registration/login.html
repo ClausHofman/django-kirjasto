@@ -8,7 +8,7 @@
 <!-- User is logged in but doesn't have permission to a page, auth system will "next" them -->
 {% if next %}
     {% if user.is_authenticated %}
-        <p>You don't have permission for this page</p>
+        <p>You are logged in.</p>
         
         <!-- User isn't logged in -->
     {% else %}

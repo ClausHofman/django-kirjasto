@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Book,Author,BookInstance,Genre,Language
 from django.views.generic import CreateView,DetailView
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -32,3 +33,8 @@ class BookCreate(CreateView): # book_form.html
 class BookDetail(DetailView):
     model = Book
     # tai success_url = reverse_lazy('x:y')
+
+@login_required
+def my_view(request):
+    # user needs to be logged in
+    return render(request,'catalog/my_view.html')
