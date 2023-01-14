@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
+from django.utils import timezone
 
 
 # Create your views here.
@@ -36,6 +37,12 @@ class BookCreate(LoginRequiredMixin,CreateView): # book_form.html
 class BookDetail(DetailView):
     model = Book
     # tai success_url = reverse_lazy('x:y')
+    
+    # date test
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
 
 @login_required
 def my_view(request):
