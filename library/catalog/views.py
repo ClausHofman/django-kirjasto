@@ -3,6 +3,9 @@ from django.http import HttpResponse
 from .models import Book,Author,BookInstance,Genre,Language
 from django.views.generic import CreateView,DetailView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
 
 
 # Create your views here.
@@ -24,7 +27,7 @@ def index(request):
     return render(request,'catalog/index.html',context=context)
 
 # luo kirja CreateView:lla (malli Book), luo book_form.html, yhdistä näkymät urls.py (catalog/urls.py)
-class BookCreate(CreateView): # book_form.html
+class BookCreate(LoginRequiredMixin,CreateView): # book_form.html
     model = Book
     fields = '__all__'
 
@@ -38,3 +41,9 @@ class BookDetail(DetailView):
 def my_view(request):
     # user needs to be logged in
     return render(request,'catalog/my_view.html')
+
+
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'catalog/signup.html'
